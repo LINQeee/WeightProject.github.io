@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign in to weight project</title>
+    <link rel="stylesheet" href="/styles/loginPageStyle.css">
+    <script src="https://kit.fontawesome.com/acaa438d26.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="mainBox">
+        <div class="headers">
+            <span class="activeHeader" id="signIn" onclick="switchToSignIn()">
+                SIGN IN
+                <div class="activeBorder"></div>
+            </span>
+            <span class="disabledHeader" id="signUp" onclick="switchToSignUp()">
+                SIGN UP
+                <div class="disabledBorder"></div>
+            </span>
+
+        </div>
+        <div class="mainForm">
+            <div class="formInput" id="usernameFormInput">
+
+                <input type="text" required maxlength="100" id="usernameInput" oninput="setValue(this, false)" value="" autocomplete="off">
+                <span>Имя</span>
+                <div class="inputBorder"></div>
+            </div>
+            <div class="formInput">
+
+                <input type="text" required maxlength="100" id="emailInput" oninput="setValue(this, false)" value="">
+                <span>Почта</span>
+                <div class="inputBorder"></div>
+            </div>
+            <div class="formInput">
+
+                <input type="text" required maxlength="100" id="passwordInput" oninput="setValue(this, true)"
+                    data-is-shown="false" value="" autocomplete="off">
+                <i class="fa-solid fa-eye-slash" style="cursor:pointer" onclick="setIsChange('passwordInput', this)"></i>
+                <span>Пароль</span>
+                <div class="inputBorder"></div>
+            </div>
+            <div class="formInput" id="rememberMeForm">
+                <input type="checkbox" id="rememberMeInput">
+                <span>Запомнить Меня</span>
+            </div>
+
+            <div id="biologyData">
+                <div class="heightInput">
+                    <i class="fa-solid fa-person fa-2xl"></i>
+                    <i class="fa-solid fa-arrows-up-down fa-2xl"></i>
+                    <input type="number" required onKeyPress="if(this.value.length==3) return false;" id="heightInput">
+                    <div></div>
+                    <span>см</span>
+                </div>
+                </input>
+                <div class="genderInput">
+                    <span id="man">М</span>
+                    <label class="switch">
+                        <input type="checkbox" id="genderInput">
+                        <span class="slider"></span>
+                    </label>
+                    <span id="woman">Ж</span>
+                </div>
+            </div>
+            <button id="submitButton">ВОЙТИ</button>
+            <a href="#" id="forgotPassword">Забыли пароль?</a>
+        </div>
+    </div>
+
+    <script src="InputSave.js"></script>
+    <script src="logic.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+    background: url(/images/loginBackground.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mainBox {
+    height: 80%;
+    width: 100%;
+    max-width: 750px;
+    max-height: 900px;
+    background-color: rgba(34, 40, 49, 0.35);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    backdrop-filter: blur(5px);
+    border-radius: 30px;
+}
+
+.mainForm {
+    width: 95%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headers {
+    margin-top: 3%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.headers span {
+    font-size: 4em;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    transition: all 0.1s;
+}
+
+.activeHeader {
+    color: #00ADB5;
+    cursor: context-menu;
+}
+
+.disabledHeader {
+    color: rgba(0, 173, 181, 0.5);
+    cursor: pointer;
+}
+
+.activeBorder {
+    width: 10%;
+    height: 0.5%;
+    background-color: #00ADB5;
+    position: absolute;
+    border-radius: 100px;
+    box-shadow: 0px 0px 15px 2px rgba(0, 244, 255, 0.8);
+    transition: all 0.4s;
+}
+
+.disabledBorder {
+    width: 0%;
+    height: 0.5%;
+    background-color: #00ADB5;
+    position: absolute;
+    border-radius: 100px;
+    box-shadow: 0px 0px 15px 2px rgba(0, 244, 255, 0.8);
+    transition: all 0.4s;
+}
+
+#usernameFormInput{
+    margin-top: 0%;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+}
+
+.formInput{
+    width: 100%;
+}
+
+.formInput:has(input[type="text"]) {
+    margin-top: 9%;
+    width: 90%;
+    height: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.formInput input[type="text"] {
+    width: 200%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #EEEEEE;
+    font-size: 1.3em;
+    font-weight: 300;
+    font-family: 'Montserrat', sans-serif;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 999999999999s ease-in-out 0s;
+    -webkit-text-fill-color: #EEEEEE;
+}
+
+.inputBorder {
+    width: 85%;
+    height: 0.5%;
+    position: absolute;
+    border-radius: 100px;
+    background-color: #00ADB5;
+    margin-top: 6%;
+}
+
+.formInput span {
+    color: #00ADB5;
+    font-size: 1.8em;
+}
+
+.formInput input[type="text"]~span {
+    position: absolute;
+    left: 7.5%;
+    font-weight: 300;
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.formInput input[type="text"]~i {
+    position: absolute;
+    right: 10%;
+    transform: scale(1.5);
+    z-index: 100;
+    color: #00ADB5;
+}
+
+.formInput input[type="text"]:focus~span, .formInput input[type="text"]:valid~span {
+    color: #EEEEEE;
+    transform: translateY(-90%);
+}
+
+.formInput:has(input[type="checkbox"]) {
+    width: 90%;
+    margin-top: 13%;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.formInput input[type="checkbox"]~span {
+    margin-left: 2%;
+    cursor: context-menu;
+}
+
+.formInput input[type="checkbox"] {
+
+    transform: scale(1.6);
+    cursor: pointer;
+}
+
+.formInput input[type="checkbox"]:checked {
+    accent-color: #00ADB5;
+}
+
+button {
+    position: fixed;
+    bottom: 15%;
+    width: 42%;
+    height: 11%;
+
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    background: #00ADB5;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #EEEEEE;
+    transition: box-shadow 0.3s, transform 0.1s;
+}
+
+button:hover {
+    box-shadow: 0px 0px 15px 4px rgba(0, 244, 255, 0.8);
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.9);
+}
+
+#forgotPassword {
+    position: fixed;
+    bottom: 7%;
+    color: #00ADB5;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: all 0.2s;
+}
+
+#forgotPassword:hover {
+    color: #EEEEEE;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+#forgotPassword:active {
+    transform: scale(0.9);
+}
+
+#biologyData{
+
+    pointer-events: none;
+    opacity: 0;
+    height: 0%;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.4s;
+}
+
+.heightInput{
+    display: flex;
+    align-items: center;
+    color: #00ADB5;
+    height: 20%;
+    width: 40%;
+}
+
+.heightInput input{
+    height: 100%;
+    width: 13%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #EEEEEE;
+    font-size: 1.1em;
+}
+
+.heightInput input + div{
+    background: #00ADB5;
+    border-radius: 100px;
+    height: 0.5%;
+    width: 4%;
+    position: absolute;
+    margin-top: 3%;
+    margin-left: 5.7%;
+}
+
+.heightInput span{
+    font-size: 1.3em;
+    font-weight: 300;
+    cursor: context-menu;
+}
+
+.genderInput{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 20%;
+}
+
+.genderInput{
+    color: #00ADB5;
+    font-size: 1.5em;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #EEEEEE;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #2196F3;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider:before {
+   background-color: #ff79f4;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+#man{
+    color: #2196F3;
+}
+
+#woman{
+    color: #ff79f4;
+}
