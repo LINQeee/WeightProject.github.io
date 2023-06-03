@@ -229,7 +229,7 @@ function disableEditMode() {
 //* BACK LOGIC/////////////////////////////////////////////////////
 
 function setupUserData() {
-    fetch('http://185.22.61.24:9092/summary?id=102')
+    fetch('http://185.22.61.24:9092/summary?id=1')
         .then(response => {
             response.json().then(data => {
                 let userDTO = data["userDTO"];
