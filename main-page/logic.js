@@ -229,7 +229,7 @@ function disableEditMode() {
 //* BACK LOGIC/////////////////////////////////////////////////////
 
 function setupUserData() {
-    fetch('http://192.168.1.98:9090/summary?id=102')
+    fetch('http://185.22.61.24:9092/summary?id=102')
         .then(response => {
             response.json().then(data => {
                 let userDTO = data["userDTO"];
@@ -269,7 +269,7 @@ function resetInputs(){
 }
 
 function createRecord() {
-    fetch('http://192.168.1.98:9090/record', {
+    fetch('http://185.22.61.24:9092/record', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -292,7 +292,7 @@ function updateRecords() {
         newRecordsData.push(new userRecord(currentWeight, date, 102));
     }
 
-    fetch('http://192.168.1.98:9090/recordlist', {
+    fetch('http://185.22.61.24:9092/recordlist', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

@@ -1,0 +1,6 @@
+
+hjavascript:S3699"LRemove this use of the output from "setup"; "setup" doesn't return anything.(ÒÒ•Ô
+;javascript:S125"Remove this commented out code.(Ú¥è‰
+njavascript:S107¬"RFunction 'setupStatsAndMetrics' has too many parameters (9). Maximum allowed is 7.(˜ºŒ
+ijavascript:S4138¡"LExpected a `for-of` loop instead of a `for` loop with this simple iteration.(–‡å
+ojavascript:S101Ú"NRename class "userRecord" to match the regular expression ^[A-Z][a-zA-Z0-9]*$.(¬—Šùÿÿÿÿ
