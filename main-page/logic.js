@@ -286,8 +286,12 @@ function createRecord() {
         body: JSON.stringify(new userRecord(parseFloat(inputData["currentWeight"].value), inputData["dateInput"].value, 1))
     })
         .then(response => {
-            setupUserData();
-            response.json().then(data => console.log(data));
+            if (response.status === 200) {
+                setupUserData();
+                response.text().then(data => console.log(data));
+            } else {
+                response.json().then(data => console.log(data));
+            }
         }).catch(function (e) {
         console.log(e);
     });
