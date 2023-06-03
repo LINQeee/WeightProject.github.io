@@ -6,106 +6,110 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weight Project</title>
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/mainPageStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/barStyle.css">
+    <link rel="stylesheet" href="/styles/mainPageStyle.css">
+    <link rel="stylesheet" href="/styles/barStyle.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/acaa438d26.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div class="header">
-        <div class="logo"><i class="fa-solid fa-apple-whole"></i><span>Weight Project</span></div>
-        <div class="userInfo"><i class="fa-solid fa-user"></i></div>
-    </div>
-    <div class="mainStats">
-        <div class="stats">
-            <div class="dashboard">
-                <div class="dashboardHeader">Прогресс</div>
-                <div class="skill">
-                    <li><span id="barNumber">0%</span>
-                        <span class="bar"><span id="fillBar"></span></span>
-                    </li>
-                </div>
-                <div class="dashList">
-                    <div class="statsElem"><span><span class="boldText">Текущий</span> вес: <span class="boldText"
-                                id="currentWeight">75</span> кг</span></div>
-                    <div class="statsElem"><span>Начальный вес: <span class="boldText" id="startWeight">83</span>
-                            кг</span></div>
-                    <div class="statsElem"><span>Дата начала: <span class="boldText" id="startDate">15 Май
-                                2023</span></span></div>
-                </div>
-                <div class="createRecordButton">
-                    <div class="recordInputs">
-                        <div class="inputElem">
-
-                            <div class="inputLabel"><span>Дата:</span></div><input type="date" id="dateInput" required
-                                max="9999-12-31">
-                        </div>
-
-                        <div class="inputElem">
-                            <div class="inputLabel"><span>Вес:</span></div><input type="number" id="weightInput"
-                                required>
-                        </div>
-                    </div>
-                    <button type="submit" onclick="createRecord()">Сделать Запись</button>
-                </div>
-            </div>
-            <div class="shedule">
-                <canvas id="myChart"></canvas>
-            </div>
-        </div>
-
-        <div class="table">
-            <div id="recordsBox" class="scrollZone">
-                <li>
-                    <input type="date" id="recordDate" value="2023-05-08" disabled="true" autocomplete="off"
-                        max="9999-12-31">
-                    <input type="number" id="recordWeight" value="83.4" disabled="true" autocomplete="off">
-                    <i id="editButton" class="fa-regular fa-pen-to-square" onclick="enableEditMode(this)"></i>
-                    <i id="deleteButton" class="fa-solid fa-trash"></i>
+<div class="header">
+    <div class="logo"><i class="fa-solid fa-apple-whole"></i><span>Weight Project</span></div>
+    <div class="userInfo"><i class="fa-solid fa-user"></i></div>
+</div>
+<div class="mainStats">
+    <div class="stats">
+        <div class="dashboard">
+            <div class="dashboardHeader">Прогресс</div>
+            <div class="skill">
+                <li><span id="barNumber">0%</span>
+                    <span class="bar"><span id="fillBar"></span></span>
                 </li>
             </div>
-            <div id="saveButtons">
-                <button id="save" onclick="updateRecords()">Сохранить</button>
-                <button id="discard" onclick="disableEditMode()">Отменить Изменения</button>
+            <div class="dashList">
+                <div class="statsElem"><span><span class="boldText">Текущий</span> вес: <span class="boldText"
+                                                                                              id="currentWeight">75</span> кг</span>
+                </div>
+                <div class="statsElem"><span>Начальный вес: <span class="boldText" id="startWeight">83</span>
+                            кг</span></div>
+                <div class="statsElem"><span>Дата начала: <span class="boldText" id="startDate">15 Май
+                                2023</span></span></div>
             </div>
+            <div class="createRecordButton">
+                <div class="recordInputs">
+                    <div class="inputElem">
+
+                        <div class="inputLabel"><span>Дата:</span></div>
+                        <input type="date" id="dateInput" value="">
+                    </div>
+
+                    <div class="inputElem">
+                        <div class="inputLabel"><span>Вес:</span></div>
+                        <input type="number" id="weightInput"
+                               required>
+                    </div>
+                </div>
+                <button type="submit" onclick="createRecord()">Сделать Запись</button>
+            </div>
+        </div>
+        <div class="shedule">
+            <canvas id="myChart"></canvas>
         </div>
     </div>
 
-    <div class="metricsBox">
-        <div id="averageMetric">
-            <div class="metricHeader"><i class="fa-solid fa-stopwatch fa-beat fa-xl"></i>Среднее количество сброшеных кг</div>
-            <div class="metricContent">
-                <li><span>В день: <span class="boldText" id="perDay">0.3</span> кг</span></li>
-                <li><span>В неделю: <span class="boldText" id="perWeek">3.8</span> кг</span></li>
-            </div>
-        </div>
-        <div id="supposedDateMetric">
-            <div class="metricHeader"><i class='bx bx-party'></i>Предполагаемая дата достижения цели</div>
-            <div class="metricContent">
-                <span id="supposedDate">30 Май 2023</span>
-            </div>
-        </div>
-        <div id="goalStatsMetric">
-            <div class="metricHeader"><i class="fa-solid fa-list-ol"></i>Статистика цели</div>
-            <div class="metricContent">
-                <table>
-                    <tr>
-                        <th colspan="2"><span>Цель: <span class="boldText" id="goal">73</span> кг</span></th>
-                    </tr>
-                    <tr>
-                        <td><span>Сброшено: <span class="boldText" id="lost">14.7</span> кг</span></td>
-                        <td><span>Осталось: <span class="boldText" id="remain">4</span> кг</span></td>
-                    </tr>
-                </table>
-            </div>
+    <div class="table">
+        <div id="recordsBox" class="scrollZone">
+            <li>
+                <div class="recordInfo">
+                    <input type="date" id="recordDate" value="2023-05-08" disabled="disabled" autocomplete="off"
+                           max="9999-12-31">
+                    <input type="number" id="recordWeight" value="83.4" disabled="disabled" autocomplete="off">
+                    <button id="editButton" onclick="enableEditMode(this)"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button id="deleteButton"><i class="fa-solid fa-trash"></i></button>
+                </div>
+                <div id="saveButtons">
+                    <button id="save" onclick="updateRecords()">Сохранить</button>
+                    <button id="discard" onclick="disableEditMode()">Отменить Изменения</button>
+                </div>
+            </li>
         </div>
     </div>
+</div>
+
+<div class="metricsBox">
+    <div id="averageMetric">
+        <div class="metricHeader"><i class="fa-solid fa-stopwatch fa-beat fa-xl"></i>Среднее количество сброшеных кг
+        </div>
+        <div class="metricContent">
+            <li><span>В день: <span class="boldText" id="perDay">0.3</span> кг</span></li>
+            <li><span>В неделю: <span class="boldText" id="perWeek">3.8</span> кг</span></li>
+        </div>
+    </div>
+    <div id="supposedDateMetric">
+        <div class="metricHeader"><i class='bx bx-party'></i>Предполагаемая дата достижения цели</div>
+        <div class="metricContent">
+            <span id="supposedDate">30 Май 2023</span>
+        </div>
+    </div>
+    <div id="goalStatsMetric">
+        <div class="metricHeader"><i class="fa-solid fa-list-ol"></i>Статистика цели</div>
+        <div class="metricContent">
+            <table>
+                <tr>
+                    <th colspan="2"><span>Цель: <span class="boldText" id="goal">73</span> кг</span></th>
+                </tr>
+                <tr>
+                    <td><span>Сброшено: <span class="boldText" id="lost">14.7</span> кг</span></td>
+                    <td><span>Осталось: <span class="boldText" id="remain">4</span> кг</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
 
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="logic.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="logic.js"></script>
 </body>
 
 </html>

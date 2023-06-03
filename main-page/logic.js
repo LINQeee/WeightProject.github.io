@@ -1,28 +1,36 @@
+const recordsBox = document.getElementById("recordsBox");
+
+let editingRecord = [];
+
+let editingRecordData = [];
+
+let myChart;
+
+const inputData = {
+    "currentWeight": document.getElementById("weightInput"),
+    "dateInput": document.getElementById("dateInput")
+};
+
 document.documentElement.addEventListener("load", setup());
-
-var recordsBox = document.getElementById("recordsBox");
-
-var editingRecords = [];
-
-var editingRecordsData = [];
-
-var myChart;
-
-const inputData = {"currentWeight": document.getElementById("weightInput"), "dateInput": document.getElementById("dateInput")};
 
 //* FRONT LOGIC/////////////////////////////////////////////////////
 
 
-
 function setup() {
     setupUserData();
+    //otherSetup();
+}
+
+function otherSetup() {
+    inputData["dateInput"].value = new Date().toISOString().split('T')[0];
+    inputData["currentWeight"].value = null;
 }
 
 function chartRenderOrCreate(weightList, dates) {
     //* SETUP DATA
     let data = [];
     for (let i = 0; i < weightList.length; i++) {
-        data.push({ x: dateToYearDay(dates[i]), y: weightList[i] });
+        data.push({x: dateToYearDay(dates[i]), y: weightList[i]});
     }
     //* ANIMATION SETUP
     const totalDuration = 1500;
@@ -156,7 +164,7 @@ async function setupBar(progressPercents) {
     let number = document.getElementById("barNumber");
     let counter = 0;
     setInterval(() => {
-        if (counter == progressPercents) clearInterval();
+        if (counter === progressPercents) clearInterval();
         else {
             counter++;
 
@@ -200,30 +208,37 @@ function setupRecords(recordsList) {
 }
 
 function enableEditMode(button) {
+
     button.parentNode.querySelector("#recordDate").removeAttribute("disabled");
     button.parentNode.querySelector("#recordWeight").removeAttribute("disabled");
-    recordsBox.style.maxHeight = "85%";
-    document.getElementById("saveButtons").style.display = "flex";
-    editingRecords.push(button);
+    button.parentNode.parentNode.querySelector("#saveButtons").style.display = "flex";
+    editingRecord = button;
     let currentWeight = button.parentNode.querySelector("#recordWeight").value;
     let date = button.parentNode.querySelector("#recordDate").value;
-    editingRecordsData.push(new userRecord(currentWeight, date, 102));
+    editingRecordData = new userRecord(currentWeight, date, 1);
+    recordButtonsChangeAvailability(true);
 }
 
 function disableEditMode() {
-    for (let i = 0; i < editingRecords.length; i++) {
-        let button = editingRecords[i];
-        button.parentNode.querySelector("#recordDate").setAttribute("disabled", "");
-        button.parentNode.querySelector("#recordWeight").setAttribute("disabled", "");
-        button.parentNode.querySelector("#recordDate").value = editingRecordsData[i]["date"];
-        button.parentNode.querySelector("#recordWeight").value = editingRecordsData[i]["currentWeight"];
-    }
+    editingRecord.parentNode.querySelector("#recordDate").setAttribute("disabled", "disabled");
+    editingRecord.parentNode.querySelector("#recordWeight").setAttribute("disabled", "disabled");
+    editingRecord.parentNode.querySelector("#recordDate").value = editingRecordData["date"];
+    editingRecord.parentNode.querySelector("#recordWeight").value = editingRecordData["currentWeight"];
 
-    document.getElementById("saveButtons").style.display = "none";
-    recordsBox.style.maxHeight = "100%";
-    editingRecords = [];
-    editingRecordsData = [];
+    editingRecord.parentNode.parentNode.querySelector("#saveButtons").style.display = "none";
+    editingRecord = null;
+    editingRecordData = null;
+    recordButtonsChangeAvailability(false);
 }
+
+function recordButtonsChangeAvailability(isAvailable) {
+    for (let record of recordsBox.children) {
+        let button = record.querySelector(".recordInfo").querySelector("#editButton");
+        if (isAvailable) button.setAttribute("disabled", "disabled");
+        else if (button.hasAttribute("disabled")) button.removeAttribute("disabled");
+    }
+}
+
 //* //////////////////////////////////////////////////////////////////////////
 
 //* BACK LOGIC/////////////////////////////////////////////////////
@@ -233,8 +248,6 @@ function setupUserData() {
         .then(response => {
             response.json().then(data => {
                 let userDTO = data["userDTO"];
-                //*reset inputs
-                resetInputs();
                 //* chartCreate
                 let weightList = [];
                 let datesList = [];
@@ -260,12 +273,7 @@ function setupUserData() {
                     userDTO["weightLeft"]);
             });
         }).catch(function () {
-        });
-}
-
-function resetInputs(){
-    inputData["currentWeight"].value = null;
-    inputData["dateInput"].value = null;
+    });
 }
 
 function createRecord() {
@@ -275,57 +283,54 @@ function createRecord() {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(new userRecord(inputData["currentWeight"].value, inputData["dateInput"].value, 102))
+        body: JSON.stringify(new userRecord(parseFloat(inputData["currentWeight"].value), inputData["dateInput"].value, 1))
     })
         .then(response => {
             setupUserData();
+            response.json().then(data => console.log(data));
         }).catch(function (e) {
-            console(e);
-        });
+        console.log(e);
+    });
 }
 
 function updateRecords() {
-    let newRecordsData = [];
-    for (let i = 0; i < editingRecords.length; i++) {
-        let currentWeight = editingRecords[i].parentNode.querySelector("#recordWeight").value;
-        let date = editingRecords[i].parentNode.querySelector("#recordDate").value;
-        newRecordsData.push(new userRecord(currentWeight, date, 102));
-    }
-
-    fetch('http://185.22.61.24:9092/recordlist', {
+    let newCurrentWeight = parseFloat(document.getElementById("weightInput").value);
+    let newDate = document.getElementById("dateInput").value;
+    console.log(newDate);
+    fetch('http://185.22.61.24:9092/record', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newRecordsData)
+        body: JSON.stringify(new userRecord(newCurrentWeight, newDate, 1))
     })
         .then(() => {
             disableEditMode();
             setupUserData();
         }).catch(function () {
 
-        });
+    });
 }
 
 function formatDate(userDate) {
     let date = new Date(userDate);
-    let month = date.toLocaleString('ru', { month: 'short' }).capitalize();
+    let month = date.toLocaleString('ru', {month: 'short'}).capitalize();
     let day = date.getDate();
     let year = date.getFullYear();
     return day + ' ' + month + ' ' + year;
 }
 
 function dateToYearDay(date) {
-    var current = new Date(date.getTime());
-    var previous = new Date(date.getFullYear(), 0, 1);
+    let current = new Date(date.getTime());
+    let previous = new Date(date.getFullYear(), 0, 1);
 
     return Math.ceil((current - previous + 1) / 86400000);
 }
 
 function yearDayToMonthDate(day) {
     let date = new Date(2023, 0, day);
-    return date.toLocaleString('ru', { month: 'short' }).capitalize() + ' ' + date.getDate();
+    return date.toLocaleString('ru', {month: 'short'}).capitalize() + ' ' + date.getDate();
 }
 
 Object.defineProperty(String.prototype, 'capitalize', {
