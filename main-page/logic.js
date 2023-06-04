@@ -268,11 +268,15 @@ async function showNotification(noteType, bodyText) {
             colorPalette = "#B8FFB7";
             headerText = "Отлично!";
             break;
+        default:
+            colorPalette = "#FF7676";
+            headerText = "Непредвиденная ошибка!";
+            break;
     }
     let copy = document.getElementById("notification");
     let clone = copy.cloneNode(true);
     copy.before(clone);
-    clone.id = "notification"+notificationsCount;
+    clone.id = "notification" + notificationsCount;
     notificationsCount++;
     let fillNoteBar = clone.querySelector(".noteProgress").querySelector(".progressFill");
 
@@ -350,10 +354,27 @@ function createRecord() {
     });
 }
 
+function deleteRecord(button){
+    let recordId = button.parentNode.parentNode.getAttribute("data-record-id");
+
+    fetch('http://80.78.254.170:9092/record?id='+recordId, {method: 'DELETE'})
+        .then(response => {
+            if(response.status === 200) {
+                setupUserData();
+                response.text().then(data => showNotification("success", data));
+            }
+            else{
+                response.json().then(data => showNotification(data["type"], data["msg"]));
+            }
+        }).catch(() => {
+        showNotification("UNEXPECTED", "Мы не смогли отправить запрос серверу.");
+    });
+}
+
 function updateRecords() {
     let newWeight = editingRecord.parentNode.querySelector("#recordWeight").value;
     let newDate = editingRecord.parentNode.querySelector("#recordDate").value;
-    let recordId = editingRecord.parentNode.getAttribute("data-record-id");
+    let recordId = editingRecord.parentNode.parentNode.getAttribute("data-record-id");
 
     fetch('http://80.78.254.170:9092/record', {
         method: 'POST',
@@ -365,11 +386,10 @@ function updateRecords() {
     })
         .then(response => {
             disableEditMode();
-            if(response.status === 200){
+            if (response.status === 200) {
                 setupUserData();
                 response.text().then(data => showNotification("success", data));
-            }
-            else{
+            } else {
                 response.json().then(data => showNotification(data["type"], data["msg"]));
             }
         }).catch(() => {

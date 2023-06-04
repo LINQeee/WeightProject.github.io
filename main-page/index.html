@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weight Project</title>
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/mainPageStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/barStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/notificationStyle.css">
+    <link rel="stylesheet" href="/styles/mainPageStyle.css">
+    <link rel="stylesheet" href="/styles/barStyle.css">
+    <link rel="stylesheet" href="/styles/notificationStyle.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/acaa438d26.js" crossorigin="anonymous"></script>
 </head>
@@ -74,7 +74,7 @@
                            max="9999-12-31">
                     <input type="number" id="recordWeight" value="83.4" disabled="disabled" autocomplete="off">
                     <button id="editButton" onclick="enableEditMode(this)"><i class="fa-regular fa-pen-to-square"></i></button>
-                    <button id="deleteButton"><i class="fa-solid fa-trash"></i></button>
+                    <button id="deleteButton" onclick="deleteRecord(this)"><i class="fa-solid fa-trash"></i></button>
                 </div>
                 <div id="saveButtons">
                     <button id="save" onclick="updateRecords()">Сохранить</button>
@@ -87,7 +87,7 @@
 
 <div class="metricsBox">
     <div id="averageMetric">
-        <div class="metricHeader"><i class="fa-solid fa-stopwatch fa-beat fa-xl"></i>Среднее количество сброшеных кг
+        <div class="metricHeader"><i class="fa-solid fa-stopwatch fa-beat fa-xl"></i>Среднее количество сброшенных кг
         </div>
         <div class="metricContent">
             <li><span>В день: <span class="boldText" id="perDay">0.3</span> кг</span></li>
