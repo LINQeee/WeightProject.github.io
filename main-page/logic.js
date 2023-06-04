@@ -2,9 +2,20 @@ const recordsBox = document.getElementById("recordsBox");
 
 let editingRecord = [];
 
-let editingRecordData = [];
+let editingRecordData;
 
 let myChart;
+
+let notificationsCount = 0;
+
+class userRecord {
+    constructor(currentWeight, date, userId, id) {
+        this.currentWeight = currentWeight;
+        this.date = date;
+        this.userId = userId;
+        this.id = id;
+    }
+}
 
 const inputData = {
     "currentWeight": document.getElementById("weightInput"),
@@ -17,13 +28,14 @@ document.documentElement.addEventListener("load", setup());
 
 
 function setup() {
+    //awakeSetup();
     setupUserData();
-    //otherSetup();
 }
 
-function otherSetup() {
-    inputData["dateInput"].value = new Date().toISOString().split('T')[0];
+function awakeSetup() {
+    inputData["dateInput"].max = new Date().toISOString().split("T")[0];
     inputData["currentWeight"].value = null;
+    document.getElementById("recordDate").max = new Date().toISOString().split("T")[0];
 }
 
 function chartRenderOrCreate(weightList, dates) {
@@ -171,10 +183,10 @@ async function setupBar(progressPercents) {
             number.innerHTML = counter + "%";
         }
     }, 20)
-    document.getElementById("fillBar").style.animation = "unfillbar 0s ease-out forwards";
+    document.getElementById("fillBar").style.animation = "unfillProgressGoalBar 0s ease-out forwards";
     document.documentElement.style.setProperty("--bar-end-width", progressPercents + "%");
     await sleep(1);
-    document.getElementById("fillBar").style.animation = "fillBar 2s ease-out forwards";
+    document.getElementById("fillBar").style.animation = "fillProgressGoalBar 2s ease-out forwards";
 }
 
 function setupStatsAndMetrics(currentWeight, startWeight, startDate, supposedDate, kgPerDay, kgPerWeek, goal, lostKg, remainKg) {
@@ -200,10 +212,11 @@ function setupRecords(recordsList) {
         let clone = copy.cloneNode(true);
         clone.querySelector("#recordDate").value = record["date"];
         clone.querySelector("#recordWeight").value = record["currentWeight"];
+        clone.setAttribute("data-record-id", record["id"]);
         copy.after(clone);
         copy = clone;
     }
-    //* deleting that "parent" record
+    //* deleting that “parent” record
     recordsBox.getElementsByTagName("li")[0].remove();
 }
 
@@ -239,12 +252,52 @@ function recordButtonsChangeAvailability(isAvailable) {
     }
 }
 
+async function showNotification(noteType, bodyText) {
+    let headerText;
+    let colorPalette;
+    switch (noteType) {
+        case "UNEXPECTED":
+            colorPalette = "#FF7676";
+            headerText = "Ошибка! Повторите попытку позже.";
+            break;
+        case "VALIDATION":
+            colorPalette = "#FFFCA8";
+            headerText = "Упс, что-то пошло не так!";
+            break;
+        case "success":
+            colorPalette = "#B8FFB7";
+            headerText = "Отлично!";
+            break;
+    }
+    let copy = document.getElementById("notification");
+    let clone = copy.cloneNode(true);
+    copy.before(clone);
+    clone.id = "notification"+notificationsCount;
+    notificationsCount++;
+    let fillNoteBar = clone.querySelector(".noteProgress").querySelector(".progressFill");
+
+    clone.style.borderColor = colorPalette;
+    clone.querySelector(".noteHeader").querySelector("span").innerHTML = headerText;
+    clone.querySelector(".noteBody").querySelector("span").innerHTML = bodyText;
+    fillNoteBar.style.backgroundColor = colorPalette;
+    clone.style.animation = "1s ease-out forwards noteShowUp";
+    fillNoteBar.style.animation = "1s ease-out forwards fillBar";
+
+    clone.addEventListener("animationend", async () => {
+        fillNoteBar.style.animation = "4s linear forwards unfillBar";
+        await sleep(4000);
+        clone.style.animation = "1s ease-out forwards noteShowDown";
+        await sleep(1000);
+        clone.remove();
+    });
+}
+
 //* //////////////////////////////////////////////////////////////////////////
 
 //* BACK LOGIC/////////////////////////////////////////////////////
 
 function setupUserData() {
-    fetch('http://185.22.61.24:9092/summary?id=1')
+    fetch('http://80.78.254.170:9092/summary?id=1')
         .then(response => {
             response.json().then(data => {
                 let userDTO = data["userDTO"];
@@ -277,43 +330,50 @@ function setupUserData() {
 }
 
 function createRecord() {
-    fetch('http://185.22.61.24:9092/record', {
+    fetch('http://80.78.254.170:9092/record', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(new userRecord(parseFloat(inputData["currentWeight"].value), inputData["dateInput"].value, 1))
+        body: JSON.stringify(new userRecord(inputData["currentWeight"].value, inputData["dateInput"].value, 1))
     })
         .then(response => {
             if (response.status === 200) {
                 setupUserData();
-                response.text().then(data => console.log(data));
+                response.text().then(data => showNotification("success", data));
             } else {
-                response.json().then(data => console.log(data));
+                response.json().then(data => showNotification(data["type"], data["msg"]));
             }
-        }).catch(function (e) {
-        console.log(e);
+        }).catch(() => {
+        showNotification("UNEXPECTED", "Мы не смогли отправить запрос серверу.");
     });
 }
 
 function updateRecords() {
-    let newCurrentWeight = parseFloat(document.getElementById("weightInput").value);
-    let newDate = document.getElementById("dateInput").value;
-    console.log(newDate);
-    fetch('http://185.22.61.24:9092/record', {
+    let newWeight = editingRecord.parentNode.querySelector("#recordWeight").value;
+    let newDate = editingRecord.parentNode.querySelector("#recordDate").value;
+    let recordId = editingRecord.parentNode.getAttribute("data-record-id");
+
+    fetch('http://80.78.254.170:9092/record', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(new userRecord(newCurrentWeight, newDate, 1))
+        body: JSON.stringify(new userRecord(newWeight, newDate, 1, recordId))
     })
-        .then(() => {
+        .then(response => {
             disableEditMode();
-            setupUserData();
-        }).catch(function () {
-
+            if(response.status === 200){
+                setupUserData();
+                response.text().then(data => showNotification("success", data));
+            }
+            else{
+                response.json().then(data => showNotification(data["type"], data["msg"]));
+            }
+        }).catch(() => {
+        showNotification("UNEXPECTED", "Мы не смогли отправить запрос серверу.")
     });
 }
 
@@ -352,10 +412,3 @@ const sleep = async (milliseconds) => {
 
 //* //////////////////////////////////////////////////////////////////////////
 
-class userRecord {
-    constructor(currentWeight, date, userId) {
-        this.currentWeight = currentWeight;
-        this.date = date;
-        this.userId = userId;
-    }
-}

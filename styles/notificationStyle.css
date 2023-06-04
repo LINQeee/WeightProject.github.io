@@ -1,0 +1,89 @@
+.notification{
+    position: absolute;
+    height: 200px;
+    width: 360px;
+    background: #222831;
+    border: 2px solid #FF7676;
+    z-index: 100;
+    border-radius: 25px;
+    color: #EEEEEE;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 38px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    top: 15%;
+    left: -500px;
+}
+
+.notification .noteHeader{
+    background: #393E46;
+    width: 100%;
+    height: 37%;
+    border-radius: 25px 25px 0 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification .noteHeader span{
+    text-align: center;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.notification .noteBody{
+    width: 100%;
+    height: 46%;
+    box-sizing: border-box;
+    padding: 2%;
+}
+
+.notification .noteBody span{
+    font-size: 19px;
+    font-weight: 300;
+}
+
+.notification .noteProgress{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+
+.notification .noteProgress .progressBackground, .notification .noteProgress .progressFill{
+    height: 5px;
+    position: absolute;
+}
+
+.notification .noteProgress .progressFill{
+    width: 70%;
+    border-radius: 0 100px 100px 0;
+    z-index: 2;
+}
+
+.notification .noteProgress .progressBackground{
+    width: 100%;
+    background: #1E1E1E;
+}
+
+@keyframes fillBar {
+    0%{width: 0}
+    100%{width: 100%}
+}
+
+@keyframes unfillBar {
+    0%{width: 100%}
+    100%{width: 0}
+}
+
+@keyframes noteShowUp {
+    0%{left: -500px; opacity: 0}
+    100%{left: 20px; opacity: 1}
+}
+
+@keyframes noteShowDown {
+    0%{left: 20px}
+    100%{left: -500px}
+}

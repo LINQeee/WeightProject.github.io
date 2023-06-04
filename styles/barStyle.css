@@ -44,12 +44,12 @@
     background: linear-gradient(135deg, rgba(43, 50, 178, 1)0%, rgba(24, 132, 195, 1)100%);
 }
 
-@keyframes fillBar{
+@keyframes fillProgressGoalBar{
     0%{width: 0%;}
     100%{width: var(--bar-end-width);}
 }
 
-@keyframes unfillbar {
+@keyframes unfillProgressGoalBar {
     0%{width: var(--bar-end-width);}
     100%{width: 0%;}
 }
