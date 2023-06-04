@@ -246,9 +246,15 @@ function disableEditMode() {
 
 function recordButtonsChangeAvailability(isAvailable) {
     for (let record of recordsBox.children) {
-        let button = record.querySelector(".recordInfo").querySelector("#editButton");
-        if (isAvailable) button.setAttribute("disabled", "disabled");
-        else if (button.hasAttribute("disabled")) button.removeAttribute("disabled");
+        let editButton = record.querySelector(".recordInfo").querySelector("#editButton");
+        let deleteButton = record.querySelector(".recordInfo").querySelector("#deleteButton");
+        if (isAvailable) {
+            editButton.setAttribute("disabled", "disabled");
+            deleteButton.setAttribute("disabled", "disabled");
+        } else if (editButton.hasAttribute("disabled") || deleteButton.hasAttribute("disabled")) {
+            editButton.removeAttribute("disabled");
+            deleteButton.removeAttribute("disabled");
+        }
     }
 }
 
@@ -355,16 +361,15 @@ function createRecord() {
     });
 }
 
-function deleteRecord(button){
+function deleteRecord(button) {
     let recordId = button.parentNode.parentNode.getAttribute("data-record-id");
 
-    fetch('http://80.78.254.170:9092/record?id='+recordId, {method: 'DELETE'})
+    fetch('http://80.78.254.170:9092/record?id=' + recordId, {method: 'DELETE'})
         .then(response => {
-            if(response.status === 200) {
+            if (response.status === 200) {
                 setupUserData();
                 response.text().then(data => showNotification("success", data));
-            }
-            else{
+            } else {
                 response.json().then(data => showNotification(data["type"], data["msg"]));
             }
         }).catch(() => {

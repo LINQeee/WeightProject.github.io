@@ -391,7 +391,7 @@ input::-webkit-inner-spin-button {
     margin-bottom: 2%;
 }
 
-.table li:hover .recordInfo, .table li:hover #saveButtons{
+.table li:hover .recordInfo, .table li:hover #saveButtons {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
@@ -458,18 +458,18 @@ input::-webkit-inner-spin-button {
     transform: scale(1.1);
 }
 
-#editButton i, #deleteButton i{
+#editButton i, #deleteButton i {
     margin-left: 4%;
     cursor: pointer;
 }
 
-#editButton, #deleteButton{
+#editButton, #deleteButton {
     background: transparent;
     border: none;
     outline: none;
 }
 
-#editButton:disabled, #editButton:disabled > i{
+#editButton:disabled, #editButton:disabled > i, #deleteButton:disabled, #deleteButton:disabled > i {
     cursor: not-allowed;
 }
 
@@ -498,6 +498,7 @@ input::-webkit-inner-spin-button {
     transition: all 0.2s;
     font-weight: 500;
 }
+
 #save {
     font-size: 1.1vw;
 }
