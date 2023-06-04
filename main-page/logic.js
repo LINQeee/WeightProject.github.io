@@ -352,7 +352,6 @@ function createRecord() {
         .then(response => {
             if (response.status === 200) {
                 setupUserData();
-                response.text().then(data => showNotification("success", data));
             } else {
                 response.json().then(data => showNotification(data["type"], data["msg"]));
             }
@@ -394,7 +393,6 @@ function updateRecords() {
             disableEditMode();
             if (response.status === 200) {
                 setupUserData();
-                response.text().then(data => showNotification("success", data));
             } else {
                 response.json().then(data => showNotification(data["type"], data["msg"]));
             }
