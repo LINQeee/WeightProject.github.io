@@ -172,7 +172,7 @@ function chartRenderOrCreate(weightList, dates) {
 }
 
 async function setupBar(progressPercents) {
-
+    progressPercents = Math.round(progressPercents * 100);
     let number = document.getElementById("barNumber");
     let counter = 0;
     setInterval(() => {
@@ -314,7 +314,8 @@ function setupUserData() {
                 }
                 chartRenderOrCreate(weightList, datesList);
                 //* progress bar setup
-                setupBar(userDTO["progress"] * 100);
+                setupBar(userDTO["progress"]);
+                console.log(userDTO["progress"]);
                 //* records setup
                 setupRecords(data["recordDTOList"]);
                 //* setup stats
