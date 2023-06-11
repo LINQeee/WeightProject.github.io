@@ -283,6 +283,8 @@ function setupRecords(recordsList) {
     }
     //* making clones of that record and updating them
     let copy = recordsBox.getElementsByTagName("tr")[0];
+    //* if table row has active class then remove it
+    if (copy.classList.contains("active")) copy.classList.remove("active");
     for (let record of recordsList.reverse()) {
         let clone = copy.cloneNode(true);
         clone.querySelector("#recordDate").innerHTML = formatDate(record["date"]);
@@ -435,7 +437,6 @@ function createRecord(newRecord) {
 }
 
 function deleteRecord() {
-    deleteButton.style.pointerEvents = "none";
     fetch('http://80.78.254.170:9092/record?id=' + editingRecordData["id"], {method: 'DELETE'})
         .then(response => {
             if (response.status === 200) {
