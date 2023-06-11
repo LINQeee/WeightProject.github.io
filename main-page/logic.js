@@ -49,8 +49,9 @@ function setup() {
 }
 
 function awakeSetup() {
-    inputData["dateInput"].max = new Date().toISOString().split("T")[0];
-    inputData["dateInput"].value = new Date().toISOString().split("T")[0];
+    let today = new Date().toISOString().split("T")[0];
+    inputData["dateInput"].max = today;
+    recordInputData["recordInputDate"].max = today;
 }
 
 function editRecordShowUI(button) {
