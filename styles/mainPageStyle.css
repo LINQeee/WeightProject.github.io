@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,900&display=swap');
 
 :root {
-    --input-main-color: rgba(57, 141, 236, 0.1);
-    --input-secondary-color: rgba(118, 159, 205, 0.3);
-    --input-marker-color: rgba(57, 141, 236, 1);
+    --input-main-color: transparent;
+    --input-focus-color: #769FCD;
+    --input-hover-color: rgba(118, 159, 205, 0.4);
+    --input-label-color: #3e78c0;
 }
 
 body {
@@ -32,285 +33,6 @@ body {
 
     transform: scale(0);
 }
-
-@keyframes popupShowUp {
-    0% {
-        transform: scale(0);
-        filter: blur(10px);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        filter: blur(0);
-        opacity: 1;
-    }
-}
-
-@keyframes popupShowDown {
-    0% {
-        transform: scale(1);
-        filter: blur(0);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0);
-        filter: blur(10px);
-        opacity: 0;
-    }
-}
-
-.recordEditBox {
-    font-family: 'Roboto', sans-serif;
-    width: 100%;
-    height: 100%;
-    max-width: 800px;
-    max-height: 250px;
-    background: #F7FBFC;
-    border-radius: 10px;
-    box-shadow: 0 0 41px 20px rgba(34, 60, 80, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: start;
-}
-
-.recordEditBox .recordHeader {
-    font-size: 1.5em;
-    font-weight: 300;
-    color: #005FDB;
-    align-self: start;
-    margin-left: 3%;
-    margin-top: 1.5%;
-}
-
-.recordEditBox .inputBox {
-    margin: auto;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-.recordEditBox .inputBox .input {
-    width: 350px;
-    height: 40px;
-}
-
-.recordEditBox .inputBox .input label {
-    position: absolute;
-    transform: translate(0%, -120%);
-    color: rgba(0, 0, 0, 0.6);
-    font-weight: 300;
-    font-size: 1em;
-    transition: all 0.2s;
-}
-
-.recordEditBox .inputBox .input span {
-    color: var(--input-marker-color);
-    transition: all 0.2s;
-}
-
-.recordEditBox .inputBox .input input {
-    width: 100%;
-    height: 100%;
-    border: none;
-    outline: none;
-    background: var(--input-main-color);
-    border-radius: 3px;
-    transition: all 0.2s;
-    font-family: 'Roboto', sans-serif;
-    color: #1E1E1E;
-    box-sizing: border-box;
-    padding: 0;
-}
-
-.recordEditBox .inputBox .input input:hover {
-    background: var(--input-secondary-color);
-}
-
-.recordEditBox .inputBox .input:has(input:hover) label {
-    color: rgba(0, 0, 0, 0.8);
-}
-
-.recordEditBox .inputBox .input input:focus,
-.recordEditBox .inputBox .input input:valid {
-    background: var(--input-main-color);
-}
-
-.recordEditBox .inputBox .input:has(input:focus) label,
-.recordEditBox .inputBox .input:has(input:valid) label {
-    color: rgba(57, 141, 236, 1);
-}
-
-.recordEditBox .inputBox .input input[type=date] {
-    font-family: 'Roboto', sans-serif;
-    color: #1E1E1E;
-    text-align: center;
-    font-size: 1em;
-    cursor: pointer;
-}
-
-.recordEditBox .inputBox .input input[type=number] {
-    font-size: 1.1em;
-    font-family: 'Roboto', sans-serif;
-    box-sizing: border-box;
-    padding: 2%;
-}
-
-.recordEditBox .actionsBox {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 0 1.5% 0 1.5%;
-    width: 100%;
-    height: 25%;
-    border-radius: 0 0 10px 10px;
-    background: rgba(0, 0, 0, 0.05);
-}
-
-.recordEditBox .actionsBox button {
-    border: none;
-    color: #CA150C;
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.9em;
-    background: transparent;
-    height: 70%;
-    border-radius: 3px;
-
-    transition: all 0.2s;
-
-    cursor: pointer;
-}
-
-.recordEditBox .actionsBox button:hover {
-    background: rgba(202, 21, 12, 0.06);
-}
-
-.recordEditBox .actionsBox button:active {
-    transform: scale(0.8);
-}
-
-.recordEditBox .actionsBox .saveBox {
-    height: 100%;
-    width: 26%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.recordEditBox .actionsBox .saveBox button:first-child {
-    color: #005FDB;
-}
-
-.recordEditBox .actionsBox .saveBox button:first-child:hover {
-    background: rgba(0, 95, 219, 0.06)
-}
-
-.recordEditBox .actionsBox .saveBox button:last-child {
-    color: #F7FBFC;
-    background: #005FDB;
-}
-
-.recordEditBox .actionsBox .saveBox button:last-child:hover {
-    color: rgba(247, 251, 252, 0.7);
-}
-
-::-webkit-calendar-picker-indicator:hover{
-    filter: brightness(0);
-}
-
-::-webkit-calendar-picker-indicator {
-    transition: all 0.3s;
-    cursor: pointer;
-    margin-right: 5%;
-    transform: scale(1.3);
-    filter: invert(1) brightness(40%);
-}
-
-/*@media (max-width: 1000px) {
-    .mainStats {
-        flex-direction: column;
-        justify-content: unset !important;
-        width: 120% !important;
-    }
-
-    .dashboard .dashboardHeader {
-        font-size: 3vw !important;
-    }
-
-    .dashboard .statsElem span {
-        font-size: 2vw !important;
-    }
-
-    .dashboard .inputElem .inputLabel span {
-        display: none !important;
-    }
-
-    .dashboard .inputElem input[type=number] {
-        font-size: 2.5vw !important;
-        width: 100% !important;
-    }
-
-    .dashboard input[type=date] {
-        font-size: 2vw !important;
-        width: 100% !important;
-    }
-
-    .createRecordButton button {
-        font-size: 2.6vw !important;
-    }
-
-    .table {
-        margin-top: 1%;
-        width: 75% !important;
-        height: 60% !important;
-    }
-
-    .table li {
-        margin-bottom: 1% !important;
-        height: 30% !important;
-    }
-
-    #recordDate {
-        font-size: 2.5vw !important;
-    }
-
-    #recordWeight {
-        font-size: 3vw !important;
-    }
-
-    .scrollZone {
-        width: 98%;
-        height: 95% !important;
-    }
-
-    .metricsBox {
-        width: 90% !important;
-        bottom: 1% !important;
-        box-shadow: none !important;
-    }
-
-    .metricsBox span {
-        font-size: 2.5vw !important;
-    }
-
-    #supposedDate {
-        font-size: 3vw !important;
-    }
-
-    #saveButtons {
-        padding: 0.4% !important;
-    }
-
-    #save {
-        font-size: 2.3vw !important;
-    }
-
-    #discard {
-        font-size: 2vw !important;
-    }
-}*/
 
 .header {
     display: flex;
@@ -367,57 +89,64 @@ body {
     height: 44%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 3%;
     margin-top: 1.5%;
     box-sizing: border-box;
     padding: 0 3% 0 3%;
 }
-
-.stats {
-    width: 76%;
-    height: 100%;
-    display: flex;
-}
-
 .dashboard {
-    width: 40%;
+    width: 20%;
     box-sizing: border-box;
     padding: 1%;
     height: 100%;
+    align-self: start;
     display: flex;
     flex-direction: column;
+}
+
+.dashboardContent {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 3%;
+    border-radius: 5px;
+    border: 1px solid #769FCD;
 }
 
 .dashboard .dashboardHeader {
     color: #769FCD;
     font-size: 2.2vw;
     font-weight: 300;
-    height: 20%;
+    height: 17%;
     text-align: center;
 }
 
 .dashboard .dashList {
-    height: 33%;
+    height: 45%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-top: 7%;
+    margin-top: 10%;
 }
 
 .dashboard .dashList li {
     color: #769FCD;
-    font-weight: 300;
+    font-weight: 100;
     font-size: 1.1vw;
 }
 
-.dashboard .statsElem .boldText, .metricsBox .boldText {
+.dashboard .boldText, .metricsBox .boldText {
     font-weight: 300;
 }
 
 
 .shedule {
-    width: 66%;
+    width: 50%;
     height: 100%;
     position: relative;
     padding: 0.5%;
@@ -429,21 +158,180 @@ body {
     cursor: pointer;
 }
 
+@keyframes popupShowUp {
+    0% {
+        transform: scale(0);
+        filter: blur(10px);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popupShowDown {
+    0% {
+        transform: scale(1);
+        filter: blur(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0);
+        filter: blur(10px);
+        opacity: 0;
+    }
+}
+
+#tablePopup {
+    height: 27%;
+    width: 19%;
+    position: absolute;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(1px);
+    background: rgba(0, 0, 0, 0.03);
+    transform: scale(0);
+    filter: blur(10px);
+    opacity: 0;
+}
+
+.recordEditBox {
+    font-family: 'Roboto', sans-serif;
+    width: 90%;
+    height: 50%;
+    max-width: 800px;
+    max-height: 250px;
+    background: #F7FBFC;
+    border-radius: 10px;
+    box-shadow: 1px 3px 10px 2px rgba(34, 60, 80, 0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+
+.recordEditBox .inputBox {
+    margin: 6% auto auto;
+    justify-content: space-around;
+}
+
+.recordEditBox .inputBox .input {
+    width: 43%;
+    height: 55%;
+}
+
+.recordEditBox .inputBox .input label {
+    transform: translate(0%, -140%);
+    color: var(--input-label-color);
+    font-size: 1em;
+}
+
+.recordEditBox .inputBox .input span {
+    transform: translate(2%, 150%);
+}
+
+.recordEditBox .inputBox .input input {
+    width: 100%;
+    padding: 0;
+}
+
+.recordEditBox .inputBox .input input[type=date] {
+    font-size: 1em;
+}
+
+.recordEditBox .inputBox .input:has(input[type="date"]) i {
+    margin-right: 3%;
+}
+
+.recordEditBox .inputBox .input input[type=number] {
+    padding: 4%;
+}
+
+.recordEditBox .actionsBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 1.5% 0 1.5%;
+    width: 100%;
+    height: 27%;
+    border-radius: 0 0 10px 10px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.recordEditBox .actionsBox button {
+    border: none;
+    color: #CA150C;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9em;
+    background: transparent;
+    height: 70%;
+    border-radius: 5px;
+
+    transition: all 0.2s;
+
+    cursor: pointer;
+
+    margin-left: 2%;
+}
+
+.recordEditBox .actionsBox button:hover {
+    background: rgba(202, 21, 12, 0.06);
+}
+
+.recordEditBox .actionsBox button:first-of-type:active{
+    box-shadow: 0 0 10px 0 rgba(251, 155, 155, 0.92)
+}
+
+.recordEditBox .actionsBox .saveBox {
+    height: 100%;
+    width:52%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.recordEditBox .actionsBox .saveBox button:first-child {
+    color: #005FDB;
+    margin-left: -2%;
+}
+
+.recordEditBox .actionsBox .saveBox button:first-child:hover {
+    background: rgba(0, 95, 219, 0.06)
+}
+
+.recordEditBox .actionsBox .saveBox button:first-child:active {
+    box-shadow: 0 0 10px 0 rgba(118, 159, 205, 0.92)
+}
+
+.recordEditBox .actionsBox .saveBox button:last-child {
+    color: #F7FBFC;
+    background: #005FDB;
+    margin-right: 2%;
+}
+
 .tableZone {
     height: 100%;
     width: 20%;
     display: flex;
     flex-direction: column;
+    justify-content: start;
 }
 
 .scroll {
     width: 100%;
-    height: 92%;
+    height: 60%;
     border-spacing: 0;
-    border: 1px solid rgba(118, 159, 205, 1);
+    box-shadow: 1px 3px 10px 2px rgba(34, 60, 80, 0.2);
     border-collapse: collapse;
-    color: #769FCD;
+    color: #3e78c0;
     font-family: 'Roboto', sans-serif;
+    background: rgba(118, 159, 205, 0.03);
 }
 
 .scroll i {
@@ -480,7 +368,7 @@ body {
 }
 
 .scroll thead th:last-child {
-    width: 30px;
+    width: 35px;
 }
 
 .scroll thead th {
@@ -489,7 +377,7 @@ body {
     text-align: left;
     box-sizing: border-box;
     padding: 1.5%;
-    font-weight: 500 !important;
+    font-weight: 400 !important;
 }
 
 .scroll tbody tr td {
@@ -507,6 +395,10 @@ body {
 
 .scroll .fa-pen-to-square {
     margin-left: -150%;
+}
+
+.activeRecord {
+    background: rgba(150, 146, 255, 0.1);
 }
 
 ::-webkit-scrollbar {
@@ -528,30 +420,131 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+.createRecordZone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15%;
+    height: 33%;
+    box-shadow: 1px 3px 10px 2px rgba(34, 60, 80, 0.2);
+    border-radius: 5px;
+    margin-top: 5%;
+    background: rgba(118, 159, 205, 0.05);
+}
 
-
-.createRecordButton {
-    display: inline;
-    height: 8%;
+.inputBox {
     width: 100%;
-    outline: none;
-    border-width: 0 1px 1px 1px;
-    border-color: rgba(118, 159, 205, 1);
-    border-style: solid;
-    background: transparent;
-    border-bottom-right-radius: 6px;
-    border-bottom-left-radius: 6px;
-    color: #769FCD;
+    height: 43%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.2vw;
-    font-weight: 200;
-    transition: all 0.2s;
 }
 
-.createRecordButton:hover {
-    background: #769FCD;
-    color: #F7FBFC;
+.inputBox .input {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: #4f6c8e;
 }
+
+.advice {
+    transform: translateX(5%);
+    height: 0;
+    width: 100%;
+    max-width: 160px;
+    background: red;
+    font-size: 0.8em;
+    font-weight: 300;
+    display: none;
+}
+
+.input input {
+    align-self: center;
+    width: 90%;
+    height: 100%;
+    outline: none;
+    box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.3) inset;
+    background: rgba(214, 230, 242, 0.3);
+    border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    padding: 4%;
+    font-size: 1em;
+    color: #4f6c8e;
+    transition: all 0.3s;
+    border: 1px solid var(--input-main-color);
+}
+
+.input input:focus, .input input:valid {
+    border-color: var(--input-focus-color) !important;
+}
+
+.input input:hover, .input:has(i:hover) input{
+    border-color: var(--input-hover-color);
+}
+
+.input label {
+    position: absolute;
+    transform: translate(30%, -140%);
+    font-size: 1.1em;
+    font-weight: 300;
+    color: var(--input-label-color);
+}
+
+.input input[type="date"] {
+    text-align: center;
+    cursor: pointer;
+}
+
+.input:has(input[type="date"]) i {
+    position: absolute;
+    align-self: end;
+    margin-right: 1%;
+    transform: scale(1.2);
+    color: #4f6c8e;
+    transition: all 0.2s;
+    margin-top: -0.2%;
+}
+
+.input:has(input[type="date"]) i:hover {
+    opacity: 0.7;
+}
+
+.input:has(input[type="date"]) i:active {
+    opacity: 1;
+    filter: saturate(150%);
+}
+
+::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+.saveButton {
+    width: 70%;
+    height: 20%;
+    outline: none !important;
+    border: 1px solid #769FCD !important;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    color: #557394 !important;
+    font-size: 1.1em;
+    background: linear-gradient(to left, transparent 50%, rgba(118, 159, 205, 0.15) 50%) right !important;
+    background-size: 200% !important;
+    transition: all 0.2s ease-out, box-shadow 0.1s;
+}
+
+.saveButton:hover {
+    background-position: left !important;
+}
+
+.saveButton:active {
+    box-shadow: 0 0 10px 0 rgba(118, 159, 205, 0.92) !important;
+}
+
 
 .metricsBox {
     width: 93%;

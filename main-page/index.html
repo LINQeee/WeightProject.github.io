@@ -6,36 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weight Project</title>
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/mainPageStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/barStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/notificationStyle.css">
+    <link rel="stylesheet" href="/styles/mainPageStyle.css">
+    <link rel="stylesheet" href="/styles/barStyle.css">
+    <link rel="stylesheet" href="/styles/notificationStyle.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://kit.fontawesome.com/acaa438d26.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<div id="popup">
-    <div class="recordEditBox">
-        <div class="recordHeader">Создать запись</div>
-        <div class="inputBox">
-            <div class="input">
-                <label for="dateInput">Дата <span>•</span></label>
-                <input type="date" id="dateInput" required oninput="showInputValid(this)">
-            </div>
-            <div class="input">
-                <label for="weightInput">Вес <span>•</span></label>
-                <input type="number" id="weightInput" required oninput="showInputValid(this)">
-            </div>
-        </div>
-        <div class="actionsBox">
-            <button id="deleteButton" onclick="deleteRecord()">Удалить...</button>
-            <div class="saveBox">
-                <button onclick="showUpOrDownPopup(false)">Закрыть</button>
-                <button id="saveButton" onclick="saveChanges()">Сохранить</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div id="notification" class="notification">
     <div class="noteHeader"><span>Ошибка! Повторите попытку позже.</span></div>
     <div class="noteBody"><span>Нельзя использовать дату в будущем!</span></div>
@@ -49,9 +27,9 @@
     <div class="userInfo"><i class="fa-solid fa-user"></i></div>
 </div>
 <div class="mainStats">
-    <div class="stats">
-        <div class="dashboard">
-            <div class="dashboardHeader">Прогресс</div>
+    <div class="dashboard">
+        <div class="dashboardHeader"><i class="fa-solid fa-rocket"></i> Прогресс</div>
+        <div class="dashboardContent">
             <div class="skill">
                 <li><span id="barNumber">0%</span>
                     <span class="bar"><span id="fillBar"></span></span>
@@ -61,16 +39,40 @@
                 <li><span>Текущий вес <span id="currentWeight" class="boldText">75</span> кг</span></li>
                 <li><span>Начальный вес <span id="startWeight" class="boldText">75</span> кг</span></li>
                 <li><span>Дата начала <span id="startDate" class="boldText">75</span></span></li>
+                я потом перемещу сюда данные из бара снизу
             </div>
         </div>
-        <div class="shedule">
-            <canvas id="myChart"></canvas>
-        </div>
-
-
+    </div>
+    <div class="shedule">
+        <canvas id="myChart"></canvas>
     </div>
     <div class="tableZone">
+
         <table class="scroll">
+            <div id="tablePopup">
+                <div class="recordEditBox">
+                    <div class="inputBox">
+                        <div class="input">
+                            <label for="dateInput">Дата</label>
+                            <input type="date" id="recordInputDate" required oninput="setInputValid(this, true)">
+                            <i onclick="this.parentNode.querySelector('input').showPicker()" class="fa-solid fa-calendar-days"></i>
+                            <span class="advice">Field can't be empty</span>
+                        </div>
+                        <div class="input">
+                            <label for="weightInput">Вес</label>
+                            <input type="number" id="recordInputWeight" required oninput="setInputValid(this, true)">
+                            <span class="advice">Field can't be empty</span>
+                        </div>
+                    </div>
+                    <div class="actionsBox">
+                        <button id="deleteButton" onclick="deleteRecord()">Удалить...</button>
+                        <div class="saveBox">
+                            <button onclick="editRecordHideUI()">Закрыть</button>
+                            <button class="saveButton" onclick="saveChanges(false)">Сохранить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <thead>
             <tr>
                 <th>Дата</th>
@@ -80,34 +82,35 @@
             </thead>
             <tbody id="recordsBox">
             <tr>
-                <td id="recordDate">30 Май 2023</td>
-                <td><span id="recordWeight">83</span> кг</td>
+                <td><span id="recordDate">30 Май 2023</span></td>
+                <td><span id="recordWeight">83</span></td>
                 <td>
                     <i class="fa-regular fa-pen-to-square" onclick="editRecordShowUI(this)"></i>
                 </td>
             </tr>
             </tbody>
         </table>
-        <button class="createRecordButton" onclick="createRecordShowUI()">Сделать запись</button>
+        <div class="createRecordZone">
+            <div class="inputBox">
+                <div class="input">
+                    <label for="dateInput">Дата</label>
+                    <input type="date" id="dateInput" required oninput="setInputValid(this, true)">
+                    <i onclick="this.parentNode.querySelector('input').showPicker()" class="fa-solid fa-calendar-days"></i>
+                    <span class="advice">Field can't be empty</span>
+                </div>
+                <div class="input">
+                    <label for="weightInput">Вес</label>
+                    <input type="number" id="weightInput" required oninput="setInputValid(this, true)">
+                    <span class="advice">Field can't be empty</span>
+                </div>
+            </div>
+            <button class="saveButton" onclick="saveChanges(true)">Создать запись</button>
+
+        </div>
     </div>
 
 </div>
 
-
-<!--<div class="createRecordButton">
-    <div class="recordInputs">
-        <div class="inputElem">
-            <input type="date" id="dateInput" required>
-        </div>
-
-        <div class="inputElem">
-            <span class="inputLabel">ВEC</span>
-            <input type="number" id="weightInput"
-                   required>
-        </div>
-    </div>
-    <button type="submit" onclick="createRecord()">сделать запись</button>
-</div>-->
 <div class="metricsBox">
     <div id="averageMetric">
         <div class="metricHeader"><i class="fa-solid fa-stopwatch fa-beat fa-xl"></i>Среднее количество сброшенных кг

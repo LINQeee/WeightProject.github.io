@@ -4,6 +4,8 @@ const deleteButton = document.getElementById("deleteButton");
 
 const recordsBox = document.getElementById("recordsBox");
 
+let editingRecord;
+
 let editingRecordData;
 
 let myChart;
@@ -31,6 +33,11 @@ const inputData = {
     "dateInput": document.getElementById("dateInput")
 };
 
+const recordInputData = {
+    "recordInputWeight": document.getElementById("recordInputWeight"),
+    "recordInputDate": document.getElementById("recordInputDate")
+};
+
 document.documentElement.addEventListener("load", setup());
 
 //* FRONT LOGIC/////////////////////////////////////////////////////
@@ -43,58 +50,67 @@ function setup() {
 
 function awakeSetup() {
     inputData["dateInput"].max = new Date().toISOString().split("T")[0];
-}
-
-function createRecordShowUI() {
-    document.getElementById("popup").querySelector(".recordEditBox").querySelector(".recordHeader").innerHTML = "Создать запись";
-    deleteButton.style.opacity = "0";
-    deleteButton.style.pointerEvents = "none";
     inputData["dateInput"].value = new Date().toISOString().split("T")[0];
-    inputData["weightInput"].value = null;
-    showUpOrDownPopup(true);
 }
 
 function editRecordShowUI(button) {
-    let record = button.parentNode.parentNode;
+    editingRecord = button.parentNode.parentNode;
+    editingRecord.classList.add("activeRecord");
     editingRecordData = new userRecord(
-        record.querySelector("#recordWeight").innerHTML,
-        unformatDate(record.querySelector("#recordDate").innerHTML),
+        editingRecord.querySelector("#recordWeight").innerHTML,
+        unformatDate(editingRecord.querySelector("#recordDate").innerHTML),
         1,
-        record.getAttribute("data-record-id")
+        editingRecord.getAttribute("data-record-id")
     );
 
-    inputData["weightInput"].value = editingRecordData["currentWeight"];
-    inputData["dateInput"].value = editingRecordData["date"];
+    recordInputData["recordInputWeight"].value = editingRecordData["currentWeight"];
+    recordInputData["recordInputDate"].value = editingRecordData["date"];
 
-    deleteButton.style.opacity = "1";
-    deleteButton.style.pointerEvents = "all";
-
-    document.getElementById("popup").querySelector(".recordEditBox").querySelector(".recordHeader").innerHTML = "Редактировать запись";
     showUpOrDownPopup(true);
 }
 
-function showInputValid(input) {
+function editRecordHideUI() {
+    showUpOrDownPopup(false);
+    editingRecord.classList.remove("activeRecord");
+    editingRecordData = null;
+    setInputValid(recordInputData["recordInputWeight"], false);
+    setInputValid(recordInputData["recordInputDate"], false);
+}
+
+function setInputValid(input, isNeedNullCheck) {
     let inputClass = input.parentNode;
-    if (input.value !== null) {
-        inputClass.style.setProperty("--input-main-color", "rgba(57, 141, 236, 0.1)");
-        inputClass.style.setProperty("--input-secondary-color", "rgba(118, 159, 205, 0.3)");
-        inputClass.style.setProperty("--input-marker-color", "rgba(57, 141, 236, 1)");
+    if (input.value != null || !isNeedNullCheck) {
+        inputClass.style.setProperty("--input-focus-color", "#769FCD");
+        inputClass.style.setProperty("--input-hover-color", "rgba(118, 159, 205, 0.4)");
+        inputClass.style.setProperty("--input-label-color", "#3e78c0");
+        inputClass.style.setProperty("--input-main-color", "transparent");
+
+        inputClass.querySelector(".advice").style.display = "none";
     }
 }
 
-function showInputError(input) {
+function showInputError(input, errorMessage) {
     let inputClass = input.parentNode;
-    inputClass.style.setProperty("--input-main-color", "rgba(252,232,231,1)");
-    inputClass.style.setProperty("--input-secondary-color", "rgba(251,221,220,1)");
-    inputClass.style.setProperty("--input-marker-color", "#CA150C");
+    inputClass.style.setProperty("--input-focus-color", "#da2020");
+    inputClass.style.setProperty("--input-hover-color", "#da2020");
+    inputClass.style.setProperty("--input-label-color", "#da2020");
+    inputClass.style.setProperty("--input-main-color", "#da2020");
+
+    let adviceSpan = inputClass.querySelector(".advice");
+    adviceSpan.innerHTML = errorMessage;
+    adviceSpan.style.color = "#da2020";
+    adviceSpan.style.display = "inline";
 }
 
 function showUpOrDownPopup(isShowing) {
-    if (isShowing) document.getElementById("popup").style.animation = "0.4s ease-out forwards popupShowUp";
-    else if (editingRecordData != null) {
+    if (isShowing) {
+        document.getElementById("tablePopup").style.animation = "0.2s ease-out forwards popupShowUp";
+        setInputValid(recordInputData["recordInputWeight"], true);
+        setInputValid(recordInputData["recordInputDate"], true);
+    } else {
         editingRecordData = null;
-        document.getElementById("popup").style.animation = "0.4s ease-out forwards popupShowDown";
-    } else document.getElementById("popup").style.animation = "0.4s ease-out forwards popupShowDown";
+        document.getElementById("tablePopup").style.animation = "0.2s ease-out forwards popupShowDown";
+    }
 }
 
 function chartRenderOrCreate(weightList, dates) {
@@ -323,14 +339,30 @@ async function showNotification(noteType, bodyText) {
     });
 }
 
-function validateInputFields() {
+function validateFields(isCreatingRecord) {
     let isValid = true;
-    if (inputData["weightInput"].value == null || inputData["weightInput"].value === "" || inputData["weightInput"].value < 0) {
-        showInputError(inputData["weightInput"]);
+
+    if (!isCreatingRecord && (recordInputData["recordInputWeight"].value == null || recordInputData["recordInputWeight"].value === "")) {
+        showInputError(recordInputData["recordInputWeight"], "Введите вес!");
+        isValid = false;
+    } else if (!isCreatingRecord && recordInputData["recordInputWeight"].value <= 0) {
+        showInputError(recordInputData["recordInputWeight"], "Вес должен быть положительным!")
         isValid = false;
     }
-    if (!Date.parse(inputData["dateInput"].value)){
-        showInputError(inputData["dateInput"]);
+    if (!isCreatingRecord && !Date.parse(recordInputData["recordInputDate"].value)) {
+        showInputError(recordInputData["recordInputDate"], "Введите дату!");
+        isValid = false;
+    }
+
+    if (isCreatingRecord && (inputData["weightInput"].value == null || inputData["weightInput"].value === "")) {
+        showInputError(inputData["weightInput"], "Введите вес!");
+        isValid = false;
+    } else if (isCreatingRecord && inputData["weightInput"].value <= 0) {
+        showInputError(inputData["weightInput"], "Вес должен быть положительным!")
+        isValid = false;
+    }
+    if (isCreatingRecord && !Date.parse(inputData["dateInput"].value)) {
+        showInputError(inputData["dateInput"], "Введите дату!");
         isValid = false;
     }
     return isValid;
@@ -340,9 +372,9 @@ function validateInputFields() {
 
 //* BACK LOGIC/////////////////////////////////////////////////////
 
-function saveChanges() {
-    if (!validateInputFields()) return;
-    if (editingRecordData != null) updateRecord();
+function saveChanges(isCreating) {
+    if (!validateFields(isCreating)) return;
+    if (!isCreating) updateRecord();
     else createRecord(new userRecord(inputData["weightInput"].value, inputData["dateInput"].value, 1));
 }
 
@@ -407,7 +439,7 @@ function deleteRecord() {
     fetch('http://80.78.254.170:9092/record?id=' + editingRecordData["id"], {method: 'DELETE'})
         .then(response => {
             if (response.status === 200) {
-                showUpOrDownPopup(false);
+                editRecordHideUI();
                 setupUserData();
                 response.text().then(data => showNotification("success", data));
             } else {
@@ -420,8 +452,8 @@ function deleteRecord() {
 
 function updateRecord() {
     let editedRecord = editingRecordData;
-    editedRecord["currentWeight"] = inputData["weightInput"].value;
-    editedRecord["date"] = inputData["dateInput"].value;
+    editedRecord["currentWeight"] = recordInputData["recordInputWeight"].value;
+    editedRecord["date"] = recordInputData["recordInputDate"].value;
 
     fetch('http://80.78.254.170:9092/record', {
         method: 'POST',
@@ -433,7 +465,7 @@ function updateRecord() {
     })
         .then(response => {
             if (response.status === 200) {
-                showUpOrDownPopup(false);
+                editRecordHideUI();
                 setupUserData();
             } else {
                 response.json().then(data => showNotification(data["type"], data["msg"]));
