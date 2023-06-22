@@ -6,10 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weight Project</title>
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/mainPageStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/barStyle.css">
-    <link rel="stylesheet" href="http://weight-project.me/WeightProject.github.io/styles/notificationStyle.css">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/styles/mainPageStyle.css">
+    <link rel="stylesheet" href="/styles/barStyle.css">
+    <link rel="stylesheet" href="/styles/notificationStyle.css">
     <script src="https://kit.fontawesome.com/acaa438d26.js" crossorigin="anonymous"></script>
 </head>
 
@@ -28,18 +27,49 @@
 </div>
 <div class="mainStats">
     <div class="dashboard">
-        <div class="dashboardHeader"><i class="fa-solid fa-rocket"></i> Прогресс</div>
-        <div class="dashboardContent">
-            <div class="skill">
-                <li><span id="barNumber">0%</span>
-                    <span class="bar"><span id="fillBar"></span></span>
-                </li>
+        <div class="statsBox progressStats">
+            <div class="progressHeader statsHeader">Прогресс</div>
+            <div class="progressContent">
+                <div class="skill">
+                    <li><span id="barNumber">0%</span>
+                        <span class="bar"><span id="fillBar"></span></span>
+                    </li>
+                </div>
+                <div class="progressList">
+                    <li><span>Текущий вес <span id="currentWeight" class="boldText">75</span> кг</span></li>
+                    <li><span>Начальный вес <span id="startWeight" class="boldText">75</span> кг</span></li>
+                    <li><span>Дата начала <span id="startDate" class="boldText">75</span></span></li>
+                </div>
             </div>
-            <div class="dashList">
-                <li><span>Текущий вес <span id="currentWeight" class="boldText">75</span> кг</span></li>
-                <li><span>Начальный вес <span id="startWeight" class="boldText">75</span> кг</span></li>
-                <li><span>Дата начала <span id="startDate" class="boldText">75</span></span></li>
-                я потом перемещу сюда данные из бара снизу
+        </div>
+
+        <div class="statsBox averageStats">
+            <div class="averageHeader statsHeader">Среднее кол-во кг
+            </div>
+            <div class="averageList">
+                <li><span>В день: <span class="boldText" id="perDay">0.3</span> кг</span></li>
+                <li><span>В неделю: <span class="boldText" id="perWeek">3.8</span> кг</span></li>
+            </div>
+        </div>
+
+        <div class="statsBox goalDateStats">
+            <div class="goalDateHeader statsHeader">Дата достижения цели
+            </div>
+            <li id="supposedDate">30 Май 2023</li>
+        </div>
+
+        <div class="statsBox goalStats">
+            <div class="goalStatsHeader statsHeader">Статистика цели</div>
+            <div class="goalStatsContent">
+                <table>
+                    <tr>
+                        <th colspan="2"><span>Цель: <span class="boldText" id="goal">73</span> кг</span></th>
+                    </tr>
+                    <tr>
+                        <td><span>Сброшено: <span class="boldText" id="lost">14.7</span> кг</span></td>
+                        <td><span>Осталось: <span class="boldText" id="remain">4</span> кг</span></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -55,7 +85,8 @@
                         <div class="input">
                             <label for="dateInput">Дата</label>
                             <input type="date" id="recordInputDate" required oninput="setInputValid(this, true)">
-                            <i onclick="this.parentNode.querySelector('input').showPicker()" class="fa-solid fa-calendar-days"></i>
+                            <i onclick="this.parentNode.querySelector('input').showPicker()"
+                               class="fa-solid fa-calendar-days"></i>
                             <span class="advice">Field can't be empty</span>
                         </div>
                         <div class="input">
@@ -95,7 +126,8 @@
                 <div class="input">
                     <label for="dateInput">Дата</label>
                     <input type="date" id="dateInput" required oninput="setInputValid(this, true)">
-                    <i onclick="this.parentNode.querySelector('input').showPicker()" class="fa-solid fa-calendar-days"></i>
+                    <i onclick="this.parentNode.querySelector('input').showPicker()"
+                       class="fa-solid fa-calendar-days"></i>
                     <span class="advice">Field can't be empty</span>
                 </div>
                 <div class="input">
@@ -109,37 +141,6 @@
         </div>
     </div>
 
-</div>
-
-<div class="metricsBox">
-    <div id="averageMetric">
-        <div class="metricHeader"><i class="fa-solid fa-stopwatch fa-beat fa-xl"></i>Среднее количество сброшенных кг
-        </div>
-        <div class="metricContent">
-            <li><span>В день: <span class="boldText" id="perDay">0.3</span> кг</span></li>
-            <li><span>В неделю: <span class="boldText" id="perWeek">3.8</span> кг</span></li>
-        </div>
-    </div>
-    <div id="supposedDateMetric">
-        <div class="metricHeader"><i class='bx bx-party'></i>Предполагаемая дата достижения цели</div>
-        <div class="metricContent">
-            <span id="supposedDate">30 Май 2023</span>
-        </div>
-    </div>
-    <div id="goalStatsMetric">
-        <div class="metricHeader"><i class="fa-solid fa-list-ol"></i>Статистика цели</div>
-        <div class="metricContent">
-            <table>
-                <tr>
-                    <th colspan="2"><span>Цель: <span class="boldText" id="goal">73</span> кг</span></th>
-                </tr>
-                <tr>
-                    <td><span>Сброшено: <span class="boldText" id="lost">14.7</span> кг</span></td>
-                    <td><span>Осталось: <span class="boldText" id="remain">4</span> кг</span></td>
-                </tr>
-            </table>
-        </div>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

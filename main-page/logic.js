@@ -204,9 +204,9 @@ function chartRenderOrCreate(weightList, dates) {
                         color: "rgba(118, 159, 205, 0.3)"
                     },
                     ticks: {
-                        color: "#769FCD",
+                        color: "#4f6c8e",
                         font: {
-                            size: 20,
+                            size: 17,
                             weight: 300,
                             family: "Roboto"
                         }
@@ -218,9 +218,9 @@ function chartRenderOrCreate(weightList, dates) {
                         color: "rgba(118, 159, 205, 0.3)"
                     },
                     ticks: {
-                        color: "#769FCD",
+                        color: "#4f6c8e",
                         font: {
-                            size: 20,
+                            size: 17,
                             weight: 300,
                             family: "Roboto"
                         },

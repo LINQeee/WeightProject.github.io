@@ -86,7 +86,7 @@ body {
 
 .mainStats {
     width: 100%;
-    height: 44%;
+    height: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -97,47 +97,136 @@ body {
 }
 .dashboard {
     width: 20%;
-    box-sizing: border-box;
-    padding: 1%;
     height: 100%;
     align-self: start;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
-.dashboardContent {
-    height: 70%;
+.statsBox {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2%;
+    border-radius: 5px;
+    background: rgba(118, 159, 205, 0.03);
+    box-shadow: 1px 3px 10px 2px rgba(34, 60, 80, 0.2);
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    box-sizing: border-box;
-    padding: 3%;
-    border-radius: 5px;
-    border: 1px solid #769FCD;
+    justify-content: flex-start;
 }
 
-.dashboard .dashboardHeader {
-    color: #769FCD;
-    font-size: 2.2vw;
+.statsHeader {
+    height: 10%;
+    color: #4f6c8e;
     font-weight: 300;
-    height: 17%;
     text-align: center;
+    font-size: 1.2vw;
 }
 
-.dashboard .dashList {
-    height: 45%;
+.statsBox li {
+    color: #4f6c8e;
+    font-weight: 200;
+    font-size: 0.94vw;
+}
+
+.progressStats {
+    height: 35%;
+}
+
+.progressContent {
+    margin-top: 5%;
+    height: 85%;
+    width: 95%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10%;
 }
 
-.dashboard .dashList li {
-    color: #769FCD;
-    font-weight: 100;
-    font-size: 1.1vw;
+.progressList {
+    height: 180%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+}
+
+.averageStats {
+    height: 15%;
+}
+
+.averageHeader {
+    height: 100%;
+}
+
+.averageList {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.goalDateStats {
+    height: 17%;
+}
+
+.goalDateHeader {
+    height: 50%;
+}
+
+#supposedDate {
+    font-weight: 300;
+    color: #4f6c8e;
+}
+
+.goalStats {
+    height: 20%;
+    padding: 2% 0 0 0 !important;
+}
+
+.goalStatsHeader {
+    height: 20%;
+}
+
+.goalStatsContent {
+    height: 68%;
+    width: 100%;
+}
+
+.goalStatsContent table {
+    margin-top: 3%;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    color: #4f6c8e;
+    border-spacing: 0;
+    text-align: center;
+}
+
+.goalStatsContent table tr th {
+    font-weight: 300;
+    font-size: 1vw;
+    box-sizing: border-box;
+    padding: 1%;
+}
+
+.goalStatsContent table tr td {
+    width: 50%;
+    border: 1px solid #769FCD;
+    font-size: 0.9vw;
+}
+
+.goalStatsContent table tr td:first-child {
+    border-radius: 0 10px 0 0;
+    border-width: 1px 1px 0 0;
+}
+
+.goalStatsContent table tr td:last-child {
+    border-radius: 10px 0 0 0;
+    border-width: 1px 0 0 1px;
 }
 
 .dashboard .boldText, .metricsBox .boldText {
@@ -152,6 +241,9 @@ body {
     padding: 0.5%;
     transition: all 0.3s;
     box-sizing: border-box;
+    box-shadow: 1px 3px 10px 2px rgba(34, 60, 80, 0.2);
+    background: rgba(118, 159, 205, 0.03);
+    border-radius: 5px;
 }
 
 .shedule:hover {
@@ -311,7 +403,6 @@ body {
 
 .recordEditBox .actionsBox .saveBox button:last-child {
     color: #F7FBFC;
-    background: #005FDB;
     margin-right: 2%;
 }
 
@@ -320,7 +411,7 @@ body {
     width: 20%;
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
 }
 
 .scroll {
@@ -332,6 +423,7 @@ body {
     color: #3e78c0;
     font-family: 'Roboto', sans-serif;
     background: rgba(118, 159, 205, 0.03);
+    border-radius: 5px;
 }
 
 .scroll i {
@@ -532,113 +624,14 @@ input::-webkit-inner-spin-button {
     font-family: 'Roboto', sans-serif;
     color: #557394 !important;
     font-size: 1.1em;
-    background: linear-gradient(to left, transparent 50%, rgba(118, 159, 205, 0.15) 50%) right !important;
-    background-size: 200% !important;
-    transition: all 0.2s ease-out, box-shadow 0.1s;
+    background: transparent;
+    transition: all 0.2s;
 }
 
 .saveButton:hover {
-    background-position: left !important;
+    background: rgba(118, 159, 205, 0.15) !important;
 }
 
 .saveButton:active {
     box-shadow: 0 0 10px 0 rgba(118, 159, 205, 0.92) !important;
-}
-
-
-.metricsBox {
-    width: 93%;
-    height: 15%;
-    background: #D6E6F2;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 20px 25px rgba(13, 14, 16, 0.65);
-    pointer-events: none;
-    margin-top: 4%;
-}
-
-.metricsBox span {
-    font-size: 1.2vw;
-    font-weight: 100;
-}
-
-#averageMetric, #supposedDateMetric, #goalStatsMetric {
-    width: 33%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 1%;
-    color: #527394;
-}
-
-#averageMetric {
-    border-right: #769FCD solid 3px;
-}
-
-#averageMetric i {
-    margin-right: 4%;
-}
-
-#supposedDateMetric i {
-    transform: scale(2);
-    margin-right: 5%;
-}
-
-#goalStatsMetric {
-    border-left: #769FCD solid 3px;
-    padding: 1% 0 0 0;
-}
-
-#goalStatsMetric i {
-    transform: scale(1.7);
-    margin-right: 4%;
-}
-
-.metricHeader {
-    font-size: 1.3vw;
-    font-weight: 300;
-    width: 100%;
-    text-align: center;
-}
-
-.metricContent {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-#supposedDate {
-    font-weight: 300;
-    font-size: 2vw;
-    color: #527394;
-    text-shadow: 0 10px 10px #527394;
-}
-
-#goalStatsMetric table {
-    width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-}
-
-#goalStatsMetric th, td {
-    text-align: center;
-}
-
-#goalStatsMetric td {
-    width: 50%;
-}
-
-#goalStatsMetric td + td {
-    border-left: 3px solid #769FCD;
-}
-
-#goalStatsMetric tr + tr {
-    border-top: 3px solid #769FCD;
 }
